@@ -11,5 +11,6 @@ public class AutomapperProfile : Profile
         CreateMap<CrimeEventCreateDto, CrimeEvent>();
         CreateMap<CrimeEvent, CrimeEventReadDto>();
         CreateMap<CrimeEventTypeCreateDto, CrimeEventType>();
+        CreateMap<CrimeEventType, CrimeEventTypeReadDto>();
     }
 }

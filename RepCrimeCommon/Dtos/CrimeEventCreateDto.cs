@@ -8,7 +8,7 @@ public class CrimeEventCreateDto
     [DataType(DataType.DateTime)]
     public DateTime Date { get; set; }
     [Required]
-    public int CrimeEventTypeId { get; set; }
+    public string CrimeEventTypeId { get; set; } = null!;
     [Required]
     [StringLength(255, MinimumLength = 5)]
     public string Description { get; set; } = null!;
