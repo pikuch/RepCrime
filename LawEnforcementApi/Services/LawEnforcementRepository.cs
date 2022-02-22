@@ -13,32 +13,32 @@ public class LawEnforcementRepository : ILawEnforcementRepository
         _context = context;
     }
 
-    public async Task<Rank> Add(Rank rank)
+    public async Task<Rank> AddNewRankAsync(Rank rank)
     {
         await _context.Ranks.AddAsync(rank);
         await _context.SaveChangesAsync();
         return rank;
     }
 
-    public async Task<LawEnforcementOfficer> Add(LawEnforcementOfficer officer)
+    public async Task<LawEnforcementOfficer> AddNewOfficerAsync(LawEnforcementOfficer officer)
     {
         await _context.LawEnforcementOfficers.AddAsync(officer);
         await _context.SaveChangesAsync();
         return officer;
     }
 
-    public async Task<IEnumerable<LawEnforcementOfficer>> GetAllLawEnforcementOfficers()
+    public async Task<IEnumerable<LawEnforcementOfficer>> GetAllOfficersAsync()
     {
-        return await _context.LawEnforcementOfficers.ToListAsync();
+        return await _context.LawEnforcementOfficers.Include(x => x.Rank).ToListAsync();
     }
 
-    public async Task<IEnumerable<Rank>> GetAllRanks()
+    public async Task<IEnumerable<Rank>> GetAllRanksAsync()
     {
         return await _context.Ranks.ToListAsync();
     }
 
-    public async Task<LawEnforcementOfficer?> GetLawEnforcementOfficerByCodename(string codename)
+    public async Task<LawEnforcementOfficer?> GetOfficerByCodenameAsync(string codename)
     {
-        return await _context.LawEnforcementOfficers.SingleOrDefaultAsync(x => x.Codename == codename);
+        return await _context.LawEnforcementOfficers.Include(x => x.Rank).SingleOrDefaultAsync(x => x.Codename == codename);
     }
 }

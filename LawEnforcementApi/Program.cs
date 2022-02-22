@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LawEnforcementDbContext>(options =>
                 options.UseInMemoryDatabase("LawEnforcementDb"));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ILawEnforcementRepository, LawEnforcementRepository>();
 
 var app = builder.Build();

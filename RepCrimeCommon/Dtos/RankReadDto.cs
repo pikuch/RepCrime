@@ -1,6 +1,6 @@
-﻿namespace LawEnforcementApi.Models;
+﻿namespace RepCrimeCommon.Dtos;
 
-public class Rank
+public class RankReadDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
