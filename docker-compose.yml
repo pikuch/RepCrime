@@ -14,3 +14,13 @@ services:
   mongodbservice:
     image: mongo
     restart: always
+
+  mssqlservice:
+    image: mcr.microsoft.com/mssql/server:2019-CU5-ubuntu-16.04
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+      - SA_PASSWORD=AbcDef10
+      - MSSQL_DB=LawEnforcementDb
+    ports:
+      - 1433:1433
