@@ -1,3 +1,4 @@
+using CrimeApi.Data;
 using CrimeApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICrimeEventRepository, CrimeEventRepository>();
 
 var app = builder.Build();
+
+CrimeEventSeeder.SeedDb(app);
 
 if (app.Environment.IsDevelopment())
 {
