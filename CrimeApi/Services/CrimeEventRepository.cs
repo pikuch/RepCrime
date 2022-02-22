@@ -20,6 +20,13 @@ public class CrimeEventRepository : ICrimeEventRepository
         _crimeEventTypeCollection = _crimeDatabase.GetCollection<CrimeEventType>(configuration["CrimeEventTypeCollectionName"]);
     }
 
+    public async Task AssignOfficerAsync(string id, string officerCodename)
+    {
+        await _crimeEventCollection.UpdateOneAsync(
+            Builders<CrimeEvent>.Filter.Eq(x => x.Id, id),
+            Builders<CrimeEvent>.Update.Set(x => x.AssignedLawEnforcementId, officerCodename));
+    }
+
     public async Task<CrimeEvent> CreateCrimeEventAsync(CrimeEvent crimeEvent)
     {
         await _crimeEventCollection.InsertOneAsync(crimeEvent);

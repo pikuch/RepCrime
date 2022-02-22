@@ -17,15 +17,18 @@ public class CrimeApiController : ControllerBase
     private readonly ILogger<CrimeApiController> _logger;
     private readonly IMapper _mapper;
     private readonly ICrimeEventRepository _crimeEventRepository;
+    private readonly ILawEnforcementService _lawEnforcementService;
 
     public CrimeApiController(
         ILogger<CrimeApiController> logger,
         IMapper mapper,
-        ICrimeEventRepository crimeEventRepository)
+        ICrimeEventRepository crimeEventRepository,
+        ILawEnforcementService lawEnforcementService)
     {
         _logger = logger;
         _mapper = mapper;
         _crimeEventRepository = crimeEventRepository;
+        _lawEnforcementService = lawEnforcementService;
     }
 
     [HttpGet]
@@ -108,5 +111,34 @@ public class CrimeApiController : ControllerBase
         var newCrimeEventType = await _crimeEventRepository.CreateCrimeEventTypeAsync(_mapper.Map<CrimeEventType>(crimeEventTypeCreateDto));
         _logger.LogInformation($"Created a new crime event type ({newCrimeEventType})");
         return Ok();
+    }
+
+    [HttpPut("{id}/officer/{officerCodename}")]
+    [SwaggerOperation("Assigns an officer to the crime event", "PUT crimes/{id}/officer/{officerCodename}")]
+    public async Task<ActionResult> AssignOfficerToCrimeEvent(string id, string officerCodename)
+    {
+        if (!ObjectId.TryParse(id, out _))
+        {
+            _logger.LogInformation($"Failed to assign an officer to the crime event with invalid id={id}");
+            return NotFound("Invalid id format");
+        }
+
+        var crimeEvent = await _crimeEventRepository.GetCrimeEventByIdAsync(id);
+        if (crimeEvent == null)
+        {
+            _logger.LogInformation($"Failed to assign an officer to the crime event with missing id={id}");
+            return BadRequest("No such crime event");
+        }
+
+        var officer = await _lawEnforcementService.GetOfficerByCodenameAsync(officerCodename);
+        if (officer == null)
+        {
+            _logger.LogInformation($"Failed to assign an officer to the crime event id={id}, officerCodename={officerCodename} because officer was not found");
+            return BadRequest("No such officer");
+        }
+
+        await _crimeEventRepository.AssignOfficerAsync(id, officerCodename);
+        _logger.LogInformation($"Assigned an officer with codename={officerCodename} to the crime event with id={id}");
+        return Ok("Officer assigned");
     }
 }
