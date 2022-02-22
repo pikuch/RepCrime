@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeStatsApi", "CrimeStats
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepCrimeCommon", "RepCrimeCommon\RepCrimeCommon.csproj", "{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

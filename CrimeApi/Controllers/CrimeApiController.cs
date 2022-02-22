@@ -2,6 +2,7 @@ using AutoMapper;
 using CrimeApi.Models;
 using CrimeApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using RepCrimeCommon.Dtos;
 using RepCrimeCommon.Enums;
 using RepCrimeCommon.Models;
@@ -45,6 +46,12 @@ public class CrimeApiController : ControllerBase
     [SwaggerOperation("Gets crime event by id", "GET crimes/{id}")]
     public async Task<ActionResult<CrimeEventReadDto>> GetCrimeEventById(string id)
     {
+        if (!ObjectId.TryParse(id, out _))
+        {
+            _logger.LogInformation($"Failed to find the crime event with invalid id={id}");
+            return BadRequest("Invalid id format");
+        }
+
         var crimeEvent = await _crimeEventRepository.GetCrimeEventByIdAsync(id);
         if (crimeEvent == null)
         {
@@ -59,10 +66,10 @@ public class CrimeApiController : ControllerBase
     [SwaggerOperation("Creates a new crime event", "POST crimes")]
     public async Task<ActionResult<CrimeEventReadDto>> CreateCrimeEvent(CrimeEventCreateDto crimeEventCreateDto)
     {
-        if (! await _crimeEventRepository.IsValidCrimeEventIdAsync(crimeEventCreateDto.CrimeEventTypeId))
+        if (! await _crimeEventRepository.IsExistingCrimeEventTypeAsync(crimeEventCreateDto.CrimeEventType))
         {
-            _logger.LogInformation($"Failed to create new crime event with invalid crimeEventTypeId={crimeEventCreateDto.CrimeEventTypeId}");
-            return BadRequest("Invalid crimeEventTypeId");
+            _logger.LogInformation($"Failed to create new crime event with invalid crimeEventType={crimeEventCreateDto.CrimeEventType}");
+            return BadRequest("Invalid crimeEventType");
         }
         var crimeEvent = _mapper.Map<CrimeEvent>(crimeEventCreateDto);
         crimeEvent.Status = CrimeEventStatus.Waiting;
@@ -89,29 +96,17 @@ public class CrimeApiController : ControllerBase
         return NotFound();
     }
 
-    [HttpGet("types/{id}", Name = "GetCrimeEventTypeById")]
-    [SwaggerOperation("Gets crime event type by id", "GET crimes/types/{id}")]
-    public async Task<ActionResult<CrimeEventTypeReadDto>> GetCrimeEventTypeById(string id)
-    {
-        var crimeEventType = await _crimeEventRepository.GetCrimeEventTypeByIdAsync(id);
-        if (crimeEventType == null)
-        {
-            _logger.LogInformation($"Failed to find the crime event type with id={id}");
-            return NotFound();
-        }
-        _logger.LogInformation($"Returned crime event type with id={id}", crimeEventType);
-        return Ok(_mapper.Map<CrimeEventTypeReadDto>(crimeEventType));
-    }
-
     [HttpPost("types")]
     [SwaggerOperation("Creates a new crime event type", "POST crimes/types")]
     public async Task<ActionResult> CreateCrimeEventType(CrimeEventTypeCreateDto crimeEventTypeCreateDto)
     {
+        if (await _crimeEventRepository.IsExistingCrimeEventTypeAsync(crimeEventTypeCreateDto.EventType))
+        {
+            _logger.LogInformation($"Failed to create a new crime event type because it already exists ({crimeEventTypeCreateDto.EventType})");
+            return BadRequest("Crime event type already exists");
+        }
         var newCrimeEventType = await _crimeEventRepository.CreateCrimeEventTypeAsync(_mapper.Map<CrimeEventType>(crimeEventTypeCreateDto));
-        _logger.LogInformation($"Created a new crime event type with id={newCrimeEventType.Id}");
-        return CreatedAtRoute(
-            nameof(GetCrimeEventTypeById),
-            new { id = newCrimeEventType.Id },
-            _mapper.Map<CrimeEventTypeReadDto>(newCrimeEventType));
+        _logger.LogInformation($"Created a new crime event type ({newCrimeEventType})");
+        return Ok();
     }
 }

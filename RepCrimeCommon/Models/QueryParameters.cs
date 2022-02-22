@@ -7,7 +7,7 @@ public class QueryParameters
     public bool Descending { get; set; } = false;
     const int maxPageSize = 100;
     public int PageNumber { get; set; } = 1;
-    private int _pageSize = 5;
+    private int _pageSize = 3;
     public int PageSize
     {
         get => _pageSize;

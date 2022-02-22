@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace RepCrimeCommon.Dtos;
 
@@ -8,7 +10,7 @@ public class CrimeEventCreateDto
     [DataType(DataType.DateTime)]
     public DateTime Date { get; set; }
     [Required]
-    public string CrimeEventTypeId { get; set; } = null!;
+    public string CrimeEventType { get; set; } = null!;
     [Required]
     [StringLength(255, MinimumLength = 5)]
     public string Description { get; set; } = null!;

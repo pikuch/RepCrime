@@ -40,7 +40,7 @@ public class CrimeEventRepository : ICrimeEventRepository
     public async Task<IEnumerable<CrimeEvent>> GetCrimeEventsAsync(QueryParameters queryParameters)
     {
         var crimeEvents = await _crimeEventCollection
-            .Find(x => x.Date >= queryParameters.StartDate && x.Date <= queryParameters.StopDate)
+            .Find(x => x.Date.CompareTo(queryParameters.StartDate) >= 0 && x.Date.CompareTo(queryParameters.StopDate) <= 0)
             .ToListAsync();
         var sortedCrimeEvents = queryParameters.Descending
             ? crimeEvents.OrderByDescending(x => x.Date)
@@ -51,19 +51,14 @@ public class CrimeEventRepository : ICrimeEventRepository
             .Take(queryParameters.PageSize);
     }
 
-    public async Task<CrimeEventType?> GetCrimeEventTypeByIdAsync(string id)
-    {
-        return await _crimeEventTypeCollection.Find(x => x.Id == id).SingleOrDefaultAsync();
-    }
-
     public async Task<IEnumerable<CrimeEventType>> GetCrimeEventTypesAsync()
     {
         return await _crimeEventTypeCollection.Find(_ => true).ToListAsync();
     }
 
-    public async Task<bool> IsValidCrimeEventIdAsync(string crimeEventTypeId)
+    public async Task<bool> IsExistingCrimeEventTypeAsync(string crimeEventType)
     {
-        var crimeEventType = await _crimeEventTypeCollection.Find(x => x.Id == crimeEventTypeId).SingleOrDefaultAsync();
-        return crimeEventType != null;
+        var foundCrimeEventType = await _crimeEventTypeCollection.Find(x => x.EventType == crimeEventType).SingleOrDefaultAsync();
+        return foundCrimeEventType != null;
     }
 }

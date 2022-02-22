@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  crimeapi:
+    image: ${DOCKER_REGISTRY-}crimeapi
+    build:
+      context: .
+      dockerfile: CrimeApi/Dockerfile
+    depends_on:
+    - mongodbservice
+    ports:
+      - 8080:80
+  
+  mongodbservice:
+    image: mongo
+    restart: always
