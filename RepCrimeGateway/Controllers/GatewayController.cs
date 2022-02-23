@@ -189,4 +189,41 @@ public class GatewayController : ControllerBase
         _logger.LogInformation($"Created a new rank");
         return Ok();
     }
+
+    // statistics endpoints
+
+    [HttpGet("stats/dailycrime")]
+    [SwaggerOperation("Gets daily crime stats", "GET api/stats/dailycrime")]
+    public async Task<ActionResult<IEnumerable<DailyCrimeReadDto>>> GetDailyCrimeStats(int numberOfDays)
+    {
+        if (numberOfDays <= 0 || numberOfDays > 365)
+        {
+            _logger.LogInformation($"Refused to deliver crime stats for the last {numberOfDays} days");
+            return BadRequest();
+        }
+
+        QueryParameters queryParameters = new QueryParameters() { StartDate = DateTime.Today.AddDays(-1 * numberOfDays) };
+        var crimeEvents = await _crimeService.GetCrimeEventsAsync(queryParameters);
+        crimeEvents ??= new List<CrimeEventReadDto>();
+
+        var dailyStatsDict = new Dictionary<int, int>();
+        foreach (var crimeEvent in crimeEvents)
+        {
+            int daysAgo = (DateTime.Now - crimeEvent.Date).Days;
+            if (dailyStatsDict.ContainsKey(daysAgo))
+            {
+                dailyStatsDict[daysAgo]++;
+            } else
+            {
+                dailyStatsDict[daysAgo] = 1;
+            }
+        }
+
+        var dailyStats = new List<DailyCrimeReadDto>();
+        foreach (var daysAgo in dailyStatsDict.Keys)
+        {
+            dailyStats.Add(new DailyCrimeReadDto() { Date = DateTime.Today.AddDays(-1 * daysAgo), CrimeCount = dailyStatsDict[daysAgo] });
+        }
+        return Ok(dailyStats);
+    }
 }
