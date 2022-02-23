@@ -38,7 +38,7 @@ public class LawEnforcementApiController : ControllerBase
         return NotFound("No officers found");
     }
 
-    [HttpGet("codename", Name = "GetOfficerByCodename")]
+    [HttpGet("{codename}", Name = "GetOfficerByCodename")]
     [SwaggerOperation("Gets officer by codename", "GET officers/{codename}")]
     public async Task<ActionResult<LawEnforcementOfficerReadDto>> GetOfficerByCodename(string codename)
     {
