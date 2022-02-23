@@ -11,6 +11,11 @@ public static class CrimeEventSeeder
         {
             var crimeEventRepository = scope.ServiceProvider.GetService<ICrimeEventRepository>();
 
+            if (crimeEventRepository == null)
+            {
+                return;
+            }
+
             var eventTypes = await crimeEventRepository.GetCrimeEventTypesAsync();
 
             if (eventTypes.Any())

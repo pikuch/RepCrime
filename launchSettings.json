@@ -2,11 +2,15 @@
   "profiles": {
     "Docker Compose": {
       "commandName": "DockerCompose",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "repcrimegateway",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "commandVersion": "1.0",
       "serviceActions": {
         "crimeapi": "StartDebugging",
         "mongodbservice": "StartWithoutDebugging",
-        "mssqlservice": "StartWithoutDebugging"
+        "lawenforcementapi": "StartDebugging",
+        "repcrimegateway": "StartDebugging"
       }
     }
   }

@@ -10,7 +10,7 @@ services:
     - mongodbservice
     - lawenforcementapi
     ports:
-      - 80:80
+      - 80
   
   lawenforcementapi:
     image: ${DOCKER_REGISTRY-}lawenforcementapi
@@ -18,8 +18,19 @@ services:
       context: .
       dockerfile: LawEnforcementApi/Dockerfile
     ports:
-      - 80:80
+      - 80
 
   mongodbservice:
     image: mongo
     restart: always
+
+  repcrimegateway:
+    image: ${DOCKER_REGISTRY-}repcrimegateway
+    build:
+      context: .
+      dockerfile: RepCrimeGateway/Dockerfile
+    depends_on:
+    - crimeapi
+    - lawenforcementapi
+    ports:
+      - 80
