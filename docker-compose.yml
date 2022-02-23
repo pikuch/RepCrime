@@ -8,9 +8,18 @@ services:
       dockerfile: CrimeApi/Dockerfile
     depends_on:
     - mongodbservice
+    - lawenforcementapi
     ports:
-      - 8080:80
+      - 80:80
   
+  lawenforcementapi:
+    image: ${DOCKER_REGISTRY-}lawenforcementapi
+    build:
+      context: .
+      dockerfile: LawEnforcementApi/Dockerfile
+    ports:
+      - 80:80
+
   mongodbservice:
     image: mongo
     restart: always
