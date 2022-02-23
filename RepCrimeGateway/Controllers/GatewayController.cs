@@ -11,13 +11,16 @@ public class GatewayController : ControllerBase
 {
     private readonly ILogger<GatewayController> _logger;
     private readonly ICrimeService _crimeService;
+    private readonly ILawEnforcementService _lawEnforcementService;
 
     public GatewayController(
         ILogger<GatewayController> logger,
-        ICrimeService crimeService)
+        ICrimeService crimeService,
+        ILawEnforcementService lawEnforcementService)
     {
         _logger = logger;
         _crimeService = crimeService;
+        _lawEnforcementService = lawEnforcementService;
     }
 
     [HttpGet("crimes")]
@@ -111,5 +114,79 @@ public class GatewayController : ControllerBase
         }
         _logger.LogInformation($"Assigned an officer with codename={officerCodename} to the crime event with id={id}");
         return Ok("Officer assigned");
+    }
+
+    // law enforcement api endpoints
+
+    [HttpGet("officers")]
+    [SwaggerOperation("Gets all officers", "GET api/officers")]
+    public async Task<ActionResult<IEnumerable<LawEnforcementOfficerReadDto>>> GetAllOfficers()
+    {
+        var officers = await _lawEnforcementService.GetAllOfficersAsync();
+        if (officers == null)
+        {
+            _logger.LogInformation($"Failed to find any officers");
+            return NotFound("No officers found");
+        }
+        _logger.LogInformation($"Returned {officers.Count()} officers", officers);
+        return Ok(officers);
+    }
+
+    [HttpGet("officers/{codename}", Name = "GetOfficerByCodename")]
+    [SwaggerOperation("Gets officer by codename", "GET api/officers/{codename}")]
+    public async Task<ActionResult<LawEnforcementOfficerReadDto>> GetOfficerByCodename(string codename)
+    {
+        var officer = await _lawEnforcementService.GetOfficerByCodenameAsync(codename);
+        if (officer != null)
+        {
+            _logger.LogInformation($"Returned officer with codename {codename}", officer);
+            return Ok(officer);
+        }
+        _logger.LogInformation($"Failed to find officer with codename {codename}");
+        return NotFound($"No officers with codename {codename} found");
+    }
+
+    [HttpPost("officers")]
+    [SwaggerOperation("Creates a new officer", "POST api/officers")]
+    public async Task<ActionResult<LawEnforcementOfficerReadDto>> CreateOfficer(LawEnforcementOfficerCreateDto officerCreateDto)
+    {
+        
+        var newOfficer = await _lawEnforcementService.AddNewOfficerAsync(officerCreateDto);
+        if (newOfficer == null)
+        {
+            _logger.LogInformation($"Failed to create new officer with codename {officerCreateDto.Codename}", officerCreateDto);
+            return BadRequest();
+        }
+
+        _logger.LogInformation($"Created officer with codename {officerCreateDto.Codename}", officerCreateDto);
+        return CreatedAtRoute(nameof(GetOfficerByCodename), new { officerCreateDto.Codename }, officerCreateDto);
+    }
+
+    [HttpGet("officers/ranks")]
+    [SwaggerOperation("Gets all ranks", "GET api/officers/ranks")]
+    public async Task<ActionResult<IEnumerable<RankReadDto>>> GetAllRanks()
+    {
+        var ranks = await _lawEnforcementService.GetAllRanksAsync();
+        if (ranks == null)
+        {
+            _logger.LogInformation($"Failed to find any ranks");
+            return NotFound("No ranks found");
+        }
+        _logger.LogInformation($"Returned {ranks.Count()} ranks", ranks);
+        return Ok(ranks);
+    }
+
+    [HttpPost("officers/ranks")]
+    [SwaggerOperation("Create a new rank", "POST api/officers/ranks")]
+    public async Task<ActionResult> CreateNewRank(RankCreateDto rankCreateDto)
+    {
+        var result = await _lawEnforcementService.AddNewRankAsync(rankCreateDto);
+        if (!result)
+        {
+            _logger.LogInformation($"Failed to create a new rank {rankCreateDto.Name}");
+            return BadRequest();
+        }
+        _logger.LogInformation($"Created a new rank");
+        return Ok();
     }
 }
