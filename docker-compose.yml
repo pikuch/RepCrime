@@ -9,16 +9,13 @@ services:
     depends_on:
     - mongodbservice
     - lawenforcementapi
-    ports:
-      - 80
+    - rabbitmq
   
   lawenforcementapi:
     image: ${DOCKER_REGISTRY-}lawenforcementapi
     build:
       context: .
       dockerfile: LawEnforcementApi/Dockerfile
-    ports:
-      - 80
 
   mongodbservice:
     image: mongo
@@ -33,4 +30,19 @@ services:
     - crimeapi
     - lawenforcementapi
     ports:
-      - 80
+      - 80:80
+
+  crimefeedbackservice:
+    image: ${DOCKER_REGISTRY-}crimefeedbackservice
+    build:
+      context: .
+      dockerfile: CrimeFeedbackService/Dockerfile
+    depends_on:
+    - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 15672:15672
+      - 5672:5672

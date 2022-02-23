@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepCrimeCommon", "RepCrimeC
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepCrimeGateway", "RepCrimeGateway\RepCrimeGateway.csproj", "{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepCrimeGateway", "RepCrimeGateway\RepCrimeGateway.csproj", "{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeFeedbackService", "CrimeFeedbackService\CrimeFeedbackService.csproj", "{79D65141-1F47-4084-A061-69133DFBE3F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D65141-1F47-4084-A061-69133DFBE3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D65141-1F47-4084-A061-69133DFBE3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D65141-1F47-4084-A061-69133DFBE3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D65141-1F47-4084-A061-69133DFBE3F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
