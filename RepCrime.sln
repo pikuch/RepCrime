@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeApi", "CrimeApi\CrimeApi.csproj", "{40C560C4-2C70-4AE5-9C6E-DB064D37B5FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimeApi", "CrimeApi\CrimeApi.csproj", "{40C560C4-2C70-4AE5-9C6E-DB064D37B5FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LawEnforcementApi", "LawEnforcementApi\LawEnforcementApi.csproj", "{3C72FCE5-4316-4F10-9F14-6AB6761841DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LawEnforcementApi", "LawEnforcementApi\LawEnforcementApi.csproj", "{3C72FCE5-4316-4F10-9F14-6AB6761841DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimeStatsApi", "CrimeStatsApi\CrimeStatsApi.csproj", "{34155AE8-D016-43A6-AEDD-551FC0727F45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimeStatsApi", "CrimeStatsApi\CrimeStatsApi.csproj", "{34155AE8-D016-43A6-AEDD-551FC0727F45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepCrimeCommon", "RepCrimeCommon\RepCrimeCommon.csproj", "{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepCrimeCommon", "RepCrimeCommon\RepCrimeCommon.csproj", "{5E2710C7-A144-4601-BDD7-C2FE6E0D1CEF}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepCrimeGateway", "RepCrimeGateway\RepCrimeGateway.csproj", "{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A5A6D93-D1FC-4AF5-8EB5-772A48C81DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ECD1D2B-99E7-4D3D-AA31-C28FB8401A0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

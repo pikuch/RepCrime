@@ -23,3 +23,10 @@ services:
   mongodbservice:
     image: mongo
     restart: always
+
+  repcrimegateway:
+    image: ${DOCKER_REGISTRY-}repcrimegateway
+    build:
+      context: .
+      dockerfile: RepCrimeGateway/Dockerfile
+
