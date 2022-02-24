@@ -72,7 +72,7 @@ public class CrimeApiController : ControllerBase
     [SwaggerOperation("Creates a new crime event", "POST crimes")]
     public async Task<ActionResult<CrimeEventReadDto>> CreateCrimeEvent(CrimeEventCreateDto crimeEventCreateDto)
     {
-        if (! await _crimeEventRepository.IsExistingCrimeEventTypeAsync(crimeEventCreateDto.CrimeEventType))
+        if (!await _crimeEventRepository.IsExistingCrimeEventTypeAsync(crimeEventCreateDto.CrimeEventType))
         {
             _logger.LogInformation($"Failed to create new crime event with invalid crimeEventType={crimeEventCreateDto.CrimeEventType}");
             return BadRequest("Invalid crimeEventType");

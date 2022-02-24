@@ -1,6 +1,5 @@
 ﻿using CrimeApi.Models;
 using MongoDB.Driver;
-using RepCrimeCommon.Enums;
 using RepCrimeCommon.Models;
 
 namespace CrimeApi.Services;
@@ -52,7 +51,7 @@ public class CrimeEventRepository : ICrimeEventRepository
         var sortedCrimeEvents = queryParameters.Descending
             ? crimeEvents.OrderByDescending(x => x.Date)
             : crimeEvents.OrderBy(x => x.Date);
-        
+
         return sortedCrimeEvents
             .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize)
             .Take(queryParameters.PageSize);

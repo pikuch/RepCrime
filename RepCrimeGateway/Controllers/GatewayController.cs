@@ -82,7 +82,7 @@ public class GatewayController : ControllerBase
             _logger.LogInformation($"Failed to find any crime event types");
             return NotFound();
         }
-        
+
         _logger.LogInformation($"Returned {crimeEventTypes.Count()} crime event types", crimeEventTypes);
         return Ok(crimeEventTypes);
     }
@@ -150,7 +150,7 @@ public class GatewayController : ControllerBase
     [SwaggerOperation("Creates a new officer", "POST api/officers")]
     public async Task<ActionResult<LawEnforcementOfficerReadDto>> CreateOfficer(LawEnforcementOfficerCreateDto officerCreateDto)
     {
-        
+
         var newOfficer = await _lawEnforcementService.AddNewOfficerAsync(officerCreateDto);
         if (newOfficer == null)
         {
@@ -213,7 +213,8 @@ public class GatewayController : ControllerBase
             if (dailyStatsDict.ContainsKey(daysAgo))
             {
                 dailyStatsDict[daysAgo]++;
-            } else
+            }
+            else
             {
                 dailyStatsDict[daysAgo] = 1;
             }

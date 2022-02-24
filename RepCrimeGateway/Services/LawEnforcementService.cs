@@ -49,7 +49,7 @@ public class LawEnforcementService : ILawEnforcementService
         HttpRequestMessage request = new HttpRequestMessage(
             HttpMethod.Get,
             $"{_configuration["OfficerService"]}/officers");
-        
+
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {

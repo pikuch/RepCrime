@@ -35,7 +35,7 @@ public class CrimeService : ICrimeService
             HttpMethod.Post,
             $"{_configuration["CrimeService"]}/crimes");
         request.Content = JsonContent.Create(crimeEventCreateDto);
-        
+
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
@@ -66,7 +66,7 @@ public class CrimeService : ICrimeService
         HttpRequestMessage request = new HttpRequestMessage(
             HttpMethod.Get,
             $"{_configuration["CrimeService"]}/crimes/{id}");
-        
+
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
