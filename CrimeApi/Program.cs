@@ -9,6 +9,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICrimeEventRepository, CrimeEventRepository>();
 builder.Services.AddScoped<ILawEnforcementService, LawEnforcementService>();
+builder.Services.AddSingleton<IRabbitService, RabbitService>();
 builder.Services.AddHttpClient();
 
 var app = builder.Build();

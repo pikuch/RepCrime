@@ -18,17 +18,20 @@ public class CrimeApiController : ControllerBase
     private readonly IMapper _mapper;
     private readonly ICrimeEventRepository _crimeEventRepository;
     private readonly ILawEnforcementService _lawEnforcementService;
+    private readonly IRabbitService _rabbitService;
 
     public CrimeApiController(
         ILogger<CrimeApiController> logger,
         IMapper mapper,
         ICrimeEventRepository crimeEventRepository,
-        ILawEnforcementService lawEnforcementService)
+        ILawEnforcementService lawEnforcementService,
+        IRabbitService rabbitService)
     {
         _logger = logger;
         _mapper = mapper;
         _crimeEventRepository = crimeEventRepository;
         _lawEnforcementService = lawEnforcementService;
+        _rabbitService = rabbitService;
     }
 
     [HttpGet]
@@ -138,6 +141,7 @@ public class CrimeApiController : ControllerBase
         }
 
         await _crimeEventRepository.AssignOfficerAsync(id, officerCodename);
+        _rabbitService.SendMessage(_mapper.Map<CrimeEventReadDto>(crimeEvent));
         _logger.LogInformation($"Assigned an officer with codename={officerCodename} to the crime event with id={id}");
         return Ok("Officer assigned");
     }
