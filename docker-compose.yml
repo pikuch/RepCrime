@@ -30,13 +30,14 @@ services:
     - crimeapi
     - lawenforcementapi
     ports:
-      - 80:80
+      - 8080:80
 
   crimefeedbackservice:
     image: ${DOCKER_REGISTRY-}crimefeedbackservice
     build:
       context: .
       dockerfile: CrimeFeedbackService/Dockerfile
+    restart: always
     depends_on:
     - rabbitmq
 
