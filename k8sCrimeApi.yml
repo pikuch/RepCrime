@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crimeapi
+  namespace: repcrimenamespace
+  labels:
+    app: crimeapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crimeapi
+  template:
+    metadata:
+      labels:
+        app: crimeapi
+    spec:
+      containers:
+      - name: crimeapi
+        image: crimeapi
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: USERNAME
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: PASSWORD
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: MONGOURL
+             
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crimeapi-service
+  namespace: repcrimenamespace
+spec:
+  selector:
+    app: crimeapi
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP

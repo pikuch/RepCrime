@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repcrimegateway
+  namespace: repcrimenamespace
+  labels:
+    app: repcrimegateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: repcrimegateway
+  template:
+    metadata:
+      labels:
+        app: repcrimegateway
+    spec:
+      containers:
+      - name: repcrimegateway
+        image: repcrimegateway
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+             
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: repcrimegateway-service
+  namespace: repcrimenamespace
+spec:
+  selector:
+    app: repcrimegateway
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP

@@ -13,8 +13,20 @@ public class CrimeEventRepository : ICrimeEventRepository
     private readonly IMongoCollection<CrimeEventType> _crimeEventTypeCollection;
     public CrimeEventRepository(IConfiguration configuration)
     {
-        MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(configuration["MongoConnectionString"]));
-        _mongoClient = new MongoClient(settings);
+        var credentials = MongoCredential.CreateCredential(
+            databaseName: configuration["DatabaseName"],
+            username: Environment.GetEnvironmentVariable("USERNAME"),
+            password: Environment.GetEnvironmentVariable("PASSWORD")
+            );
+        var server = new MongoServerAddress(host: Environment.GetEnvironmentVariable("DATABASE"), port: 27017);
+
+        var mongoClientSettings = new MongoClientSettings
+        {
+            Credential = credentials,
+            Server = server
+        };
+
+        _mongoClient = new MongoClient(mongoClientSettings);
         _crimeDatabase = _mongoClient.GetDatabase(configuration["DatabaseName"]);
         _crimeEventCollection = _crimeDatabase.GetCollection<CrimeEvent>(configuration["CrimeEventCollectionName"]);
         _crimeEventTypeCollection = _crimeDatabase.GetCollection<CrimeEventType>(configuration["CrimeEventTypeCollectionName"]);
